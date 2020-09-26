@@ -4,3 +4,4 @@ import codeitsuisse.routes.saladspree
 import codeitsuisse.routes.magicalfruitbasket
 import codeitsuisse.routes.revisitgeometry
 import codeitsuisse.routes.clusters
+import codeitsuisse.routes.intelligentfarming
