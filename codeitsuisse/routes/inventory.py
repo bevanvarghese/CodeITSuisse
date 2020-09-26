@@ -26,11 +26,11 @@ def get_close_matches_icase(word, possibilities, *args, **kwargs):
 
 
 def fixCapitals(diff):
-    for i in range(len(diff)):
-        if i == 0:
-            diff[i] = diff[i].upper()
-        elif diff[i-1] == '   ':
-            diff[i] = diff[i].upper()
+    # for i in range(len(diff)):
+    #     if i == 0:
+    #         diff[i] = diff[i].upper()
+    #     elif diff[i-1] == '   ':
+    #         diff[i] = diff[i].upper()
     return diff
 
 
