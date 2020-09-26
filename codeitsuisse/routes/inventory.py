@@ -61,6 +61,7 @@ def inventory():
     logging.info("data sent for evaluation {}".format(data))
     items = []
     searched = []
+    results = []
     for i in range(len(data)):
         items.append(data[i].get("items"))
         searched.append(data[i].get("searchItemName"))
@@ -76,7 +77,6 @@ def inventory():
             str = buildStringFromList(fixSubstitutions(fixCapitals(
                 list(dif.compare(tempSearched, item.lower())))))
             differences.append(str)
-        results = []
         res = {}
         res["searchItemName"] = data[0].get("searchItemName")
         res["searchResult"] = differences
