@@ -64,12 +64,12 @@ def findIntersections():
     for shapeLine in shapeLines:
         result = segmentAndLineIntersect(shapeLine, inputLine)
         if result is not None:
-            logging.info("My result :{}".format(result))
-            print(result)
+            # print(result)
             x = fixPrecision(result[0])
             y = fixPrecision(result[1])
             intersections.append({
                 "x": x,
                 "y": y
             })
+    logging.info("My result :{}".format(intersections))
     return json.dumps(intersections)

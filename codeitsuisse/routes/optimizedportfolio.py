@@ -20,7 +20,7 @@ def optimalHedgeRatio(coefficient, spotSD, futuresSD):
 
 
 def numOfFuturesContract(ohr, pfValue, futuresPrice, notionalVal):
-    NFC = int(round_half_up(ohr * pfValue / (futuresPrice*notionalVal), 0))+1
+    NFC = int(round_half_up(ohr * pfValue / (futuresPrice*notionalVal), 0))
     return NFC
 
 
