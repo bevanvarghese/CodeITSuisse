@@ -72,4 +72,4 @@ def evaluate():
         "outputs": output
     }
     logging.info("My result :{}".format(outputs))
-    return jsonify(outputs)
+    return json.dumps(outputs)
