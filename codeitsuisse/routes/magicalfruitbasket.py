@@ -16,11 +16,11 @@ def bestEstimate():
         "maApple": 50,
         "maOrange": 50,
         "maBanana": 50,
-        "maWatermelon": 36,
-        "maPineapple": 60,
-        "maPomegranate": 70,
+        "maWatermelon": 50,
+        "maPineapple": 50,
+        "maPomegranate": 50,
         "maAvocado": 50,
-        "maRamubutan": 70,
+        "maRamubutan": 50,
     }
     guess = 0
     for key in data:
