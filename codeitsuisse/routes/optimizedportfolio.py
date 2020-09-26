@@ -62,7 +62,7 @@ def evaluate():
                 if value == minOHR:
                     if minNFC == -1 or NFCs[key] < minNFC:
                         minNFC = NFCs[key]
-            for key, value in NFC.items():
+            for key, value in NFCs.items():
                 if value == minNFC:
                     res['HedgePositionName'] = key
                     res['OptimalHedgeRatio'] = OHRs[key]
