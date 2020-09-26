@@ -21,7 +21,7 @@ def calculateMoves(floor):
     while totalDirt > 0:
         dirt = 0
         # move left
-        if position > 0 or position == len(floor)-1 or floor[position-1] > 0:
+        if position > 0 and floor[position-1] > 0 or position == len(floor)-1:
             position -= 1
             dirt = dirtChange(floor[position])
         # move right
