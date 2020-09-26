@@ -20,4 +20,4 @@ def bestEstimate():
     bananaPrice = 30
     output = applePrice*numApples + watermelonPrice * \
         numWatermelons + bananaPrice*numBananas
-    return json.dumps(output)
+    return output

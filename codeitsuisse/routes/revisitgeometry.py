@@ -22,7 +22,16 @@ def intersect(line1, line2, intersections=[]):
     d = (determinant(*line1), determinant(*line2))
     x = determinant(d, xdiff) / div
     y = determinant(d, ydiff) / div
+    if x.is_integer():
+        x = int(x)
+    else:
+        x = round(x, 2)
+    if y.is_integer():
+        y = int(y)
+    else:
+        y = round(y, 2)
     intersections.append({"x": x, "y": y})
+    return
 
 
 @app.route('/revisitgeometry', methods=['POST'])
@@ -30,46 +39,23 @@ def findIntersections():
     data = request.get_json()
     shapes = data.get("shapeCoordinates")
     lines = data.get("lineCoordinates")
-    print()
-    # inputLine = []
-    # point0 = lines[0]
-    # point1 = lines[1]
-    # [
-    #     [point0['x'], point0['y'], ]
-    #     [point1['x'], point1['y'], ]
-    # ]
-    inputLine = []
-    for point in lines:
-        inputLine.append([
-            point['x'], point['y']
-        ])
+
+    inputLine = [
+        [lines[0].get('x'), lines[0].get('y'), ],
+        [lines[1].get('x'), lines[1].get('y'), ],
+    ]
+
     shapeLines = []
-    # for i in range(len(shapes)):
-    #     if i == len(shapes)-1:
-    #         shapeLines.append([
-    #             [shapes[i]['x'], shapes[i]['y'], ]
-    #             [shapes[0]['x'], shapes[0]['y'], ]
-    #         ])
-    #     else:
-    #         shapeLines.append([
-    #             [shapes[i]['x'], shapes[i]['y'], ]
-    #             [shapes[i+1]['x'], shapes[i+1]['y'], ]
-    #         ])
-    shapeList = []
-    for point in shapes:
-        shapeList.append([
-            point['x'], point['y']
-        ])
-    for i in range(len(shapeList)):
-        if i == len(shapeList)-1:
+    for i in range(len(shapes)):
+        if i == len(shapes)-1:
             shapeLines.append([
-                [shapeList[i][0], shapeList[i][1], ]
-                [shapeList[0][0], shapeList[0][1], ]
+                [shapes[i].get('x'), shapes[i].get('y'), ],
+                [shapes[0].get('x'), shapes[0].get('y'), ],
             ])
         else:
             shapeLines.append([
-                [shapeList[i][0], shapeList[i][1], ]
-                [shapeList[int(i+1)][0], shapeList[int(i+1)][1], ]
+                [shapes[i].get('x'), shapes[i].get('y'), ],
+                [shapes[i+1].get('x'), shapes[i+1].get('y'), ],
             ])
 
     intersections = []
