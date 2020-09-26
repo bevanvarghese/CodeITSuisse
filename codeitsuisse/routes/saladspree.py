@@ -29,9 +29,10 @@ def findMinimumPrice():
                 if minPrice == -1 or minPrice > streakPrice:
                     minPrice = streakPrice
     if minPrice == -1:
-        result = 0
+        res = 0
     else:
-        result = minPrice
-
-    logging.info("My result :{}".format(result))
-    return json.dumps(result)
+        res = minPrice
+    output = {
+        "result": res
+    }
+    return json.dumps(output)
