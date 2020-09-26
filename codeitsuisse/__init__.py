@@ -7,3 +7,4 @@ import codeitsuisse.routes.revisitgeometry
 import codeitsuisse.routes.clusters
 import codeitsuisse.routes.intelligentfarming
 import codeitsuisse.routes.socialdistance
+import codeitsuisse.routes.optimizedportfolio
