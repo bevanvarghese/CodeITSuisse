@@ -10,13 +10,28 @@ logger = logging.getLogger(__name__)
 
 @app.route('/fruitbasket', methods=['POST'])
 def bestEstimate():
-    data = request.get_data()
-    dict = json.loads(data)
+    data = json.loads(request.data.decode("utf-8"))
     logging.info("data sent for evaluation {}".format(data))
-    units = list(dict.values())
-    guesses = [0, 0, 0]
-    output = 0
-    for i in range(len(units)):
-        output += units[i]*guesses[i]
-    logging.info("My result :{}".format(output))
-    return str(output)
+    guesses = {
+        "maApple": 50,
+        "maOrange": 50,
+        "maBanana": 50,
+        "maWatermelon": 36,
+        "maPineapple": 60,
+        "maPomegranate": 70,
+        "maAvocado": 50,
+        "maRamubutan": 70,
+    }
+    guess = 0
+    for key in data:
+        weight = 0
+        try:
+            weight = guesses[key]
+        except:
+            print(key)
+            weight = 50
+        finally:
+            guess += data[key]*weight
+    print(guess)
+    logging.info("My result :{}".format(guess))
+    return json.dumps(guess)
