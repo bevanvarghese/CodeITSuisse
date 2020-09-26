@@ -37,16 +37,16 @@ def calculateMoves(floor):
 @app.route('/clean_floor', methods=['POST'])
 def cleanFloor():
     data = request.get_json()
-    #logging.info("data sent for evaluation {}".format(data))
+    logging.info("data sent for evaluation {}".format(data))
     tests = data.get("tests")
     res = {}
-    for i in range(len(tests)):
-        test = tests[str(i)]
+    for key in tests:
+        test = tests[key]
         floor = test["floor"]
-        res[str(i)] = calculateMoves(floor)
+        res[key] = calculateMoves(floor)
     output = {
         'answers': res
     }
 
-    #logging.info("My result :{}".format(result))
+    logging.info("My result :{}".format(result))
     return json.dumps(output)
