@@ -9,3 +9,4 @@ import codeitsuisse.routes.intelligentfarming
 import codeitsuisse.routes.socialdistance
 import codeitsuisse.routes.optimizedportfolio
 import codeitsuisse.routes.cleanfloor
+import codeitsuisse.routes.olympiad
