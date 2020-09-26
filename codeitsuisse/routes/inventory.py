@@ -1,0 +1,81 @@
+import logging
+import json
+from difflib import SequenceMatcher, get_close_matches, Differ
+import itertools
+
+from flask import request, jsonify
+
+from codeitsuisse import app
+
+logger = logging.getLogger(__name__)
+
+
+def get_close_matches_icase(word, possibilities, *args, **kwargs):
+    """ Case-insensitive version of difflib.get_close_matches """
+    lword = word.lower()
+    lpos = {}
+    for p in possibilities:
+        if p.lower() not in lpos:
+            lpos[p.lower()] = [p]
+        else:
+            lpos[p.lower()].append(p)
+    lmatches = get_close_matches(lword, lpos.keys(), *args, **kwargs)
+    ret = [lpos[m] for m in lmatches]
+    ret = itertools.chain.from_iterable(ret)
+    return set(ret)
+
+
+def fixCapitals(diff):
+    for i in range(len(diff)):
+        if i == 0:
+            diff[i] = diff[i].upper()
+        elif diff[i-1] == '   ':
+            diff[i] = diff[i].upper()
+    return diff
+
+
+def fixSubstitutions(diff):
+    for i in range(len(diff)-1):
+        if diff[i][0:1] == '+':
+            if i != 0:
+                if diff[i+1][0:1] == '-':
+                    diff.pop(i+1)
+                    diff[i] = diff[i][1:3]
+    return diff
+
+
+def buildStringFromList(diff):
+    string = ""
+    for i in range(len(diff)):
+        if diff[i] == '   ':
+            string += ' '
+        elif diff[i][0:1] == '+' or diff[i][0:1] == '-':
+            string += diff[i][0:1]
+        string += diff[i][-1]
+    return string
+
+
+@app.route('/inventory-management', methods=['POST'])
+def inventory():
+    data = request.get_json()
+    logging.info("data sent for evaluation {}".format(data))
+    items = data[0].get("items")
+    searched = data[0].get("searchItemName")
+    matches = get_close_matches_icase(searched, items, n=10)
+    tempMatches = []
+    for i in matches:
+        tempMatches.append(i)
+    tempSearched = searched.lower()
+    dif = Differ()
+    differences = []
+    for item in tempMatches:
+        str = buildStringFromList(fixSubstitutions(fixCapitals(
+            list(dif.compare(tempSearched, item.lower())))))
+        differences.append(str)
+    results = []
+    res = {}
+    res["searchItemName"] = data[0].get("searchItemName")
+    res["searchResult"] = differences
+    results.append(res)
+    logging.info("My result :{}".format(results))
+    return json.dumps(results)
