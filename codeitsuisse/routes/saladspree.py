@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 @app.route('/salad-spree', methods=['POST'])
 def findMinimumPrice():
     data = request.get_json()
-    logging.info("data sent for evaluation {}".format(data))
     numOfSalads = data.get("number_of_salads")
     streetMap = data.get("salad_prices_street_map")
 
