@@ -3,3 +3,4 @@ app = Flask(__name__)
 import codeitsuisse.routes.saladspree
 import codeitsuisse.routes.magicalfruitbasket
 import codeitsuisse.routes.revisitgeometry
+import codeitsuisse.routes.clusters
