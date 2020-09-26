@@ -1,5 +1,6 @@
 import logging
 import json
+import math
 
 from flask import request, jsonify
 
@@ -8,13 +9,18 @@ from codeitsuisse import app
 logger = logging.getLogger(__name__)
 
 
+def round_half_up(n, decimals=0):
+    multiplier = 10 ** decimals
+    return math.floor(n*multiplier + 0.5) / multiplier
+
+
 def optimalHedgeRatio(coefficient, spotSD, futuresSD):
     ohr = (coefficient * spotSD / futuresSD)
     return ohr
 
 
 def numOfFuturesContract(ohr, pfValue, futuresPrice, notionalVal):
-    NFC = int(round(ohr * pfValue / (futuresPrice*notionalVal), 1))+1
+    NFC = int(round_half_up(ohr * pfValue / (futuresPrice*notionalVal), 0))
     return NFC
 
 
@@ -38,7 +44,7 @@ def evaluate():
             futuresPrice = indexList[i]['IndexFuturePrice']
             notionalVal = indexList[i]['Notional']
             #FPVs[ifName] = futuresSD
-            OHRs[ifName] = round(optimalHedgeRatio(
+            OHRs[ifName] = round_half_up(optimalHedgeRatio(
                 coefficient, spotPriceSD, futuresSD), 3)
             NFCs[ifName] = numOfFuturesContract(optimalHedgeRatio(
                 coefficient, spotPriceSD, futuresSD), portfolioValue, futuresPrice, notionalVal)
