@@ -10,3 +10,4 @@ import codeitsuisse.routes.socialdistance
 import codeitsuisse.routes.optimizedportfolio
 import codeitsuisse.routes.cleanfloor
 import codeitsuisse.routes.olympiad
+import codeitsuisse.routes.yinyang
