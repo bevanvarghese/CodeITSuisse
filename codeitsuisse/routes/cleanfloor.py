@@ -48,5 +48,5 @@ def cleanFloor():
         'answers': res
     }
 
-    logging.info("My result :{}".format(result))
+    logging.info("My result :{}".format(output))
     return json.dumps(output)
