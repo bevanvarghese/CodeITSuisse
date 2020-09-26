@@ -46,19 +46,16 @@ def fixSubstitutions(diff):
 
 def countOperations(diff):
     ops = 0
-    for i in range(len(diff)):
+    i = 0
+    while(i < len(diff)):
         if diff[i][0:1] == '+':
-            if i != len(diff)-1:
-                if diff[i+1][0:1] == '-':
-                    ops += 2
-                    i += 1
-                else:
-                    ops += 1
-            else:
-                ops += 1
+            ops += 1
         elif diff[i][0:1] == '-':
-            if diff[i][0:1] == '-':
-                ops += 1
+            ops += 1
+            if i > 0:
+                if diff[i-1][0:1] == '+':
+                    ops -= 1
+        i += 1
     return ops
 
 
@@ -101,7 +98,7 @@ def inventory():
         processedOperations = sorted(
             operations.items(), key=lambda x: (x[1], x[0]), reverse=False)
         for po in processedOperations:
-            differences.append(po[0])
+            differences.append(po[1])
         res = {}
         res["searchItemName"] = data[0].get("searchItemName")
         res["searchResult"] = differences
