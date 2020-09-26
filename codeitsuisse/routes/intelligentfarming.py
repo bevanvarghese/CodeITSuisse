@@ -65,4 +65,4 @@ def farm():
     result["runId"] = data["runId"]
     results = collections.OrderedDict(sorted(result.items(), reverse=True))
     logging.info("My result :{}".format(results))
-    return json.dumps(results)
+    return jsonify(results)
