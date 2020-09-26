@@ -3,7 +3,7 @@ app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 import codeitsuisse.routes.saladspree
 import codeitsuisse.routes.magicalfruitbasket
-import codeitsuisse.routes.revisitgeometry
+import codeitsuisse.routes.geometry
 import codeitsuisse.routes.clusters
 import codeitsuisse.routes.intelligentfarming
 import codeitsuisse.routes.socialdistance
