@@ -36,28 +36,28 @@ def evaluate():
         indexList = inputs[x]["IndexFutures"]
         OHRs = {}
         NFCs = {}
-        #FPVs = {}
+        FPVs = {}
         for i in range(len(indexList)):
             ifName = indexList[i]['Name']
             futuresSD = indexList[i]['FuturePrcVol']
             coefficient = indexList[i]['CoRelationCoefficient']
             futuresPrice = indexList[i]['IndexFuturePrice']
             notionalVal = indexList[i]['Notional']
-            #FPVs[ifName] = futuresSD
+            FPVs[ifName] = futuresSD
             OHRs[ifName] = round_half_up(optimalHedgeRatio(
                 coefficient, spotPriceSD, futuresSD), 3)
             NFCs[ifName] = numOfFuturesContract(optimalHedgeRatio(
                 coefficient, spotPriceSD, futuresSD), portfolioValue, futuresPrice, notionalVal)
-        clashOfValues = False
+        clashOfOHR = False
         minOHR = 1.1
         for key, value in OHRs.items():
             if value == minOHR:
-                clashOfValues = True
+                clashOfOHR = True
             if value < minOHR:
                 minOHR = value
-                clashOfValues = False
+                clashOfOHR = False
         res = {}
-        if not clashOfValues:
+        if not clashOfOHR:
             for key, value in OHRs.items():
                 if value == minOHR:
                     res['HedgePositionName'] = key
@@ -65,16 +65,32 @@ def evaluate():
                     res['NumFuturesContract'] = NFCs[key]
                     break
         else:
-            minNFC = -1
-            for key, value in OHRs.items():
-                if value == minOHR:
-                    if minNFC == -1 or NFCs[key] < minNFC:
-                        minNFC = NFCs[key]
-            for key, value in NFCs.items():
-                if value == minNFC:
-                    res['HedgePositionName'] = key
-                    res['OptimalHedgeRatio'] = OHRs[key]
-                    res['NumFuturesContract'] = value
+            clashOfFPV = False
+            minFPV = -1
+            for key, value in FPVs.items():
+                if value == minFPV:
+                    clashOfFPV = True
+                if value < minFPV or minFPV == -1:
+                    minFPV = value
+                    clashOfFPV = False
+            if not clashOfFPV:
+                for key, value in FPVs.items():
+                    if value == minFPV:
+                        res['HedgePositionName'] = key
+                        res['OptimalHedgeRatio'] = OHRs[key]
+                        res['NumFuturesContract'] = NFCs[key]
+                        break
+            else:
+                minNFC = -1
+                for key, value in OHRs.items():
+                    if value == minOHR:
+                        if minNFC == -1 or NFCs[key] < minNFC:
+                            minNFC = NFCs[key]
+                for key, value in NFCs.items():
+                    if value == minNFC:
+                        res['HedgePositionName'] = key
+                        res['OptimalHedgeRatio'] = OHRs[key]
+                        res['NumFuturesContract'] = value
         output.append(res)
     outputs = {
         "outputs": output
