@@ -69,7 +69,7 @@ def inventory():
         tempMatches = []
         for i in matches:
             tempMatches.append(i)
-        tempSearched = searched.lower()
+        tempSearched = searched[x].lower()
         dif = Differ()
         differences = []
         for item in tempMatches:
