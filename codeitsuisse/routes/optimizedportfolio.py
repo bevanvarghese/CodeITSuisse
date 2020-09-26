@@ -15,7 +15,7 @@ def round_half_up(n, decimals=0):
 
 
 def optimalHedgeRatio(coefficient, spotSD, futuresSD):
-    ohr = round_half_up((coefficient * spotSD / futuresSD), 3)
+    ohr = (coefficient * spotSD / futuresSD)
     return ohr
 
 
@@ -44,8 +44,8 @@ def evaluate():
             futuresPrice = indexList[i]['IndexFuturePrice']
             notionalVal = indexList[i]['Notional']
             #FPVs[ifName] = futuresSD
-            OHRs[ifName] = optimalHedgeRatio(
-                coefficient, spotPriceSD, futuresSD)
+            OHRs[ifName] = round_half_up(optimalHedgeRatio(
+                coefficient, spotPriceSD, futuresSD), 3)
             NFCs[ifName] = numOfFuturesContract(optimalHedgeRatio(
                 coefficient, spotPriceSD, futuresSD), portfolioValue, futuresPrice, notionalVal)
         clashOfValues = False
