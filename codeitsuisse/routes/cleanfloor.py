@@ -35,7 +35,7 @@ def calculateMoves(floor):
 
 
 @app.route('/clean_floor', methods=['POST'])
-def evaluate():
+def cleanFloor():
     data = request.get_json()
     #logging.info("data sent for evaluation {}".format(data))
     tests = data.get("tests")
@@ -49,4 +49,4 @@ def evaluate():
     }
 
     #logging.info("My result :{}".format(result))
-    return json.dumps(result)
+    return json.dumps(output)
