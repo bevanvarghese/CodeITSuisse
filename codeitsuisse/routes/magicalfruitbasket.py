@@ -14,7 +14,7 @@ def bestEstimate():
     dict = json.loads(data)
     logging.info("data sent for evaluation {}".format(data))
     units = list(dict.values())
-    guesses = [10, 20, 30]
+    guesses = [10]
     output = 0
     for i in range(len(units)):
         output += units[i]*guesses[i]
