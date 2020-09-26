@@ -37,7 +37,7 @@ def fixCapitals(diff):
 def fixSubstitutions(diff):
     for i in range(len(diff)-1):
         if diff[i][0:1] == '+':
-            if i != 0:
+            if i != len(diff)-1:
                 if diff[i+1][0:1] == '-':
                     diff.pop(i+1)
                     diff[i] = diff[i][1:3]
