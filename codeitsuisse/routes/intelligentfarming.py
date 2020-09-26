@@ -58,6 +58,7 @@ def farm():
             if value > 0:
                 output += value*key
                 code[key] = 0
-        results.append(output)
-    logging.info("My result :{}".format(results))
-    return jsonify(results)
+        inputList[i]["geneSequence"] = output
+    data["list"] = inputList
+    logging.info("My result :{}".format(data))
+    return jsonify(data)
