@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 def intersect(line1, line2, intersections=[]):
+    if len(intersections) == 2:
+        return
     xdiff = (line1[0][0] - line1[1][0], line2[0][0] - line2[1][0])
     ydiff = (line1[0][1] - line1[1][1], line2[0][1] - line2[1][1])
 
