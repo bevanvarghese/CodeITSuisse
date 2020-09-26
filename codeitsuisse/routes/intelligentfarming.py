@@ -60,4 +60,4 @@ def farm():
                 code[key] = 0
         results.append(output)
     logging.info("My result :{}".format(results))
-    return json.dumps(results)
+    return jsonify(results)
