@@ -14,7 +14,7 @@ def optimalHedgeRatio(coefficient, spotSD, futuresSD):
 
 
 def numOfFuturesContract(ohr, pfValue, futuresPrice, notionalVal):
-    NFC = int(round(ohr * pfValue / (futuresPrice*notionalVal), 1))+1
+    NFC = int(round(ohr * pfValue / (futuresPrice*notionalVal), 1))
     return NFC
 
 
@@ -54,7 +54,7 @@ def evaluate():
                 if value == minOHR:
                     res['HedgePositionName'] = key
                     res['OptimalHedgeRatio'] = value
-                    res['NumFuturesxContract'] = NFCs[key]
+                    res['NumFuturesContract'] = NFCs[key]
                     break
         else:
             minNFC = -1
