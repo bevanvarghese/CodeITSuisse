@@ -61,10 +61,10 @@ def inventory():
     logging.info("data sent for evaluation {}".format(data))
     items = []
     searched = []
-    for i in len(data):
+    for i in range(len(data)):
         items.append(data[i].get("items"))
         searched.append(data[i].get("searchItemName"))
-    for x in len(items):
+    for x in range(len(items)):
         matches = get_close_matches_icase(searched[x], items[x], n=10)
         tempMatches = []
         for i in matches:
