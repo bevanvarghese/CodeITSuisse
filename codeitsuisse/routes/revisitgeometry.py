@@ -8,7 +8,16 @@ from codeitsuisse import app
 logger = logging.getLogger(__name__)
 
 
-def intersect(line1, line2, intersections=[]):
+def fixPrecision(i):
+    if i.is_integer():
+        i = int(i)
+    else:
+        i = round(i, 2)
+    return i
+
+
+def lineAndLineIntersect(line1, line2):
+    #source: stackoverflow
     xdiff = (line1[0][0] - line1[1][0], line2[0][0] - line2[1][0])
     ydiff = (line1[0][1] - line1[1][1], line2[0][1] - line2[1][1])
 
@@ -17,21 +26,20 @@ def intersect(line1, line2, intersections=[]):
 
     div = determinant(xdiff, ydiff)
     if div == 0:
-        return
+        return None
 
     d = (determinant(*line1), determinant(*line2))
     x = determinant(d, xdiff) / div
     y = determinant(d, ydiff) / div
-    if x.is_integer():
-        x = int(x)
-    else:
-        x = round(x, 2)
-    if y.is_integer():
-        y = int(y)
-    else:
-        y = round(y, 2)
-    intersections.append({"x": x, "y": y})
-    return
+    return (x, y)
+
+
+def segmentAndLineIntersect(segment, line):
+    intersection = lineAndLineIntersect(segment, line)
+    if intersection is not None:
+        if intersection[0] < min(segment[0][0], segment[1][0]) or intersection[0] > max(segment[0][0], segment[1][0]) or intersection[1] < min(segment[0][1], segment[1][1]) or intersection[1] > max(segment[0][1], segment[1][1]):
+            return None
+    return intersection
 
 
 @app.route('/revisitgeometry', methods=['POST'])
@@ -47,18 +55,19 @@ def findIntersections():
 
     shapeLines = []
     for i in range(len(shapes)):
-        if i == len(shapes)-1:
-            shapeLines.append([
-                [shapes[i].get('x'), shapes[i].get('y'), ],
-                [shapes[0].get('x'), shapes[0].get('y'), ],
-            ])
-        else:
-            shapeLines.append([
-                [shapes[i].get('x'), shapes[i].get('y'), ],
-                [shapes[i+1].get('x'), shapes[i+1].get('y'), ],
-            ])
+        shapeLines.append([
+            [shapes[i].get('x'), shapes[i].get('y'), ],
+            [shapes[(i+1) % len(shapes)].get('x'), shapes[0].get('y'), ],
+        ])
 
     intersections = []
     for shapeLine in shapeLines:
-        intersect(inputLine, shapeLine, intersections)
+        result = segmentAndLineIntersect(shapeLine, inputLine)
+        if result is not None:
+            x = fixPrecision(result[0])
+            y = fixPrecision(result[1])
+            intersections.append({
+                "x": x,
+                "y": y
+            })
     return json.dumps(intersections)
