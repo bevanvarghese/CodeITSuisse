@@ -59,23 +59,27 @@ def buildStringFromList(diff):
 def inventory():
     data = request.get_json()
     logging.info("data sent for evaluation {}".format(data))
-    items = data[0].get("items")
-    searched = data[0].get("searchItemName")
-    matches = get_close_matches_icase(searched, items, n=10)
-    tempMatches = []
-    for i in matches:
-        tempMatches.append(i)
-    tempSearched = searched.lower()
-    dif = Differ()
-    differences = []
-    for item in tempMatches:
-        str = buildStringFromList(fixSubstitutions(fixCapitals(
-            list(dif.compare(tempSearched, item.lower())))))
-        differences.append(str)
-    results = []
-    res = {}
-    res["searchItemName"] = data[0].get("searchItemName")
-    res["searchResult"] = differences
-    results.append(res)
+    items = []
+    searched = []
+    for i in len(data):
+        items.append(data[i].get("items"))
+        searched.append(data[i].get("searchItemName"))
+    for x in len(items):
+        matches = get_close_matches_icase(searched[x], items[x], n=10)
+        tempMatches = []
+        for i in matches:
+            tempMatches.append(i)
+        tempSearched = searched.lower()
+        dif = Differ()
+        differences = []
+        for item in tempMatches:
+            str = buildStringFromList(fixSubstitutions(fixCapitals(
+                list(dif.compare(tempSearched, item.lower())))))
+            differences.append(str)
+        results = []
+        res = {}
+        res["searchItemName"] = data[0].get("searchItemName")
+        res["searchResult"] = differences
+        results.append(res)
     logging.info("My result :{}".format(results))
     return json.dumps(results)
