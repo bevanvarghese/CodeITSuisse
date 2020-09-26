@@ -26,9 +26,11 @@ def farm():
         if code['C'] % 2 == 0:
             for i in range(code['C']):
                 output += "C"
+                code['C'] = 0
         else:
             for i in range(code['C']-1):
                 output += 'C'
+                code['C'] = 1
         # place ACGTs if possible
         ACGTpresent = True
         count = code['A']
