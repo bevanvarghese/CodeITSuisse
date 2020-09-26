@@ -1,5 +1,6 @@
 import logging
 import json
+import collections
 
 from flask import request, jsonify
 
@@ -59,6 +60,9 @@ def farm():
                 output += value*key
                 code[key] = 0
         inputList[x]["geneSequence"] = output
-    data["list"] = inputList
-    logging.info("My result :{}".format(data))
-    return jsonify(data)
+    result = {}
+    result["list"] = inputList
+    result["runId"] = data["runId"]
+    results = collections.OrderedDict(sorted(result.items(), reverse=True))
+    logging.info("My result :{}".format(results))
+    return json.dumps(results)
