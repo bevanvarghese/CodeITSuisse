@@ -101,7 +101,7 @@ def inventory():
         processedOperations = sorted(
             operations.items(), key=lambda x: (x[1], x[0]), reverse=False)
         for po in processedOperations:
-            differences.append(po[1])
+            differences.append(po[0])
         res = {}
         res["searchItemName"] = data[0].get("searchItemName")
         res["searchResult"] = differences
