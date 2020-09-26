@@ -15,8 +15,8 @@ def farm():
 
     inputList = data.get("list")
     results = []
-    for i in range(len(inputList)):
-        inputSeq = inputList[i].get("geneSequence")
+    for x in range(len(inputList)):
+        inputSeq = inputList[x].get("geneSequence")
         code = {"A": 0, "G": 0, "C": 0, "T": 0}
         for i in range(len(inputSeq)):
             code[inputSeq[i]] += 1
@@ -58,7 +58,7 @@ def farm():
             if value > 0:
                 output += value*key
                 code[key] = 0
-        inputList[i]["geneSequence"] = output
+        inputList[x]["geneSequence"] = output
     data["list"] = inputList
     logging.info("My result :{}".format(data))
     return jsonify(data)
