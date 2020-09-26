@@ -1,9 +1,7 @@
 import logging
 import json
-import math
-
 from flask import request, jsonify
-from itertools import combinations
+
 
 from codeitsuisse import app
 
@@ -11,8 +9,21 @@ logger = logging.getLogger(__name__)
 
 
 def nCombineR(n, r):
-    f = math.factorial
-    return f(n) / f(r) / f(n-r)
+
+    return (fact(n) / (fact(r)
+                       * fact(n - r)))
+
+# Returns factorial of n
+
+
+def fact(n):
+
+    res = 1
+
+    for i in range(2, n+1):
+        res = res * i
+
+    return res
 
 
 @app.route('/social_distancing', methods=['POST'])
